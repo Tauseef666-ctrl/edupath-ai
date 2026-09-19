@@ -1,84 +1,195 @@
-# EduPath AI — Adaptive Personalized Learning & Skill-Gap Agent
+# EduPath AI — Adaptive Learning Agent
 
-EduPath observes what you know, reasons about the gap to a target role, builds a
-personalized roadmap, **evaluates your evidence with assessments**, and then
-**adapts** — inserting targeted reinforcement before you move on. Every change is
-explained with reasons + evidence, and you stay in control (accept or reject each
-roadmap update). Built for the Agentic AI Hackathon 2026.
+**Your learning path should adapt to you.**
 
-## The agentic loop (all demoable offline)
+EduPath AI is an adaptive, agentic learning platform. It observes what you already
+know, reasons about the gap to a target role, builds a personalized journey,
+**evaluates your assessments for evidence**, and then **changes your roadmap when
+the evidence says you need something different** — always explaining *why*, and
+never acting without your control.
 
-1. **Observe** — Onboarding builds a rich profile (skills + *confidence/evidence*,
-   projects, certifications, weekly hours).
-2. **Reason** — The Skill-Gap Agent compares your profile to a target role and
-   prioritizes gaps by dependency + importance.
-3. **Act** — The Resource & Planning Agents produce a week-by-week learning plan,
-   ordering skills by prerequisite dependencies and not re-teaching what you know.
-4. **Evaluate** — A weighted per-concept assessment drives the Evaluation Agent.
-5. **Adapt** — Below threshold? The Adaptive Agent inserts reinforcement modules +
-   a re-check, re-packs weeks, and proposes a roadmap v2 with an explanation you
-   accept or reject.
-6. **Explain** — Ask EduPath *"Why did my roadmap change?"* and it answers from your
-   live state (score, weak concepts, before/after paths).
+Built for the **Agentic AI Hackathon 2026**. This is a real, runnable application —
+not a mockup.
 
-> Demo learner **Alex** → *Machine Learning Engineer*: onboarding shows strong
-> programming but weak foundations (Statistics 1/5, Probability 1/5). The Statistics
-> Checkpoint demo answers land at exactly **48%** → triggers reinforcement in
-> *Probability Foundations · Conditional Probability & Bayes · Probability Distributions*
-> with a reassessment, all proposed before `NumPy`.
+---
 
-## Quick start
+## Problem
+
+Generic course platforms and AI chatbots hand you a one-size-fits-all static plan:
+
+- they never check what you actually know
+- they treat a weak foundation the same as a strong one
+- when you struggle, they just tell you to "try again" instead of changing direction
+- the plan never explains *why* it looks the way it does
+
+Result: learners burn weeks on material they don't need, or get stuck at a
+prerequisite wall with no idea why.
+
+## Solution
+
+EduPath is **evidence-driven and adaptive**. It doesn't just generate a plan — it
+runs a continuous, explainable loop:
+
+> **Observe → Reason → Act → Evaluate → Adapt → Explain**
+
+1. **Observe** — onboarding builds a learner profile: current skills with
+   *confidence/evidence*, projects, certifications, weekly hours, target role.
+2. **Reason** — a Skill-Gap Agent compares your profile to the target role's
+   requirements, computes per-skill gaps, and prioritizes them by importance,
+   prerequisites, and dependency ordering (e.g. *Statistics → Probability →
+   Machine Learning*).
+3. **Act** — Resource + Planning Agents turn gaps into a week-by-week roadmap
+   with objectives, practice, difficulty, and matched resources.
+4. **Evaluate** — you take a real assessment; an Evaluation Agent scores
+   performance, breaks it down per concept, and flags weak concepts.
+5. **Adapt** — if performance is below threshold, the Adaptive Agent proposes an
+   updated roadmap (inserting reinforcement before it derails you), with the
+   reason and evidence shown. It never forces the change — **you accept or reject**.
+6. **Explain** — every change is explained from stored evaluation data, and you
+   can ask *"Why did my roadmap change?"* to see the exact evidence and decision.
+
+**The centerpiece demo:** Learner *Alex* targets *Machine Learning Engineer*, takes
+the Statistics Checkpoint, scores **48%** — the Evaluation Agent detects weakness in
+*Probability* and *Probability Distributions* — so the agent proposes inserting a
+reinforcement stage before Machine Learning. The roadmap visibly changes and the
+reason is fully explained. The whole thing runs from the UI.
+
+## Why EduPath is agentic
+
+EduPath is not a chatbot that happens to return study tips. It is a working
+**multi-agent system** with distinct responsibilities coordinated by an
+**Orchestrator**:
+
+```
+Observe      Profile Agent      builds the learner profile + evidence confidence
+Reason       Skill-Gap Agent    computes gaps, priorities, dependency order
+Act          Resource Agent     selects difficulty-matched resources
+             Planning Agent     packs weeks, orders tasks topologically
+Evaluate     Evaluation Agent   scores assessments, detects weak concepts
+Adapt        Adaptive Agent     proposes replanning when evidence demands it
+             Replanning Agent   re-resolves resources and re-packs the journey
+Explain      Ask Agent          answers "why" from live learner state
+```
+
+Each agent has one clear responsibility; critical calculations stay deterministic
+so the demo works offline and nothing is faked. The loop models the agentic
+cycle **Observe → Reason → Act → Evaluate → Adapt → Explain**.
+
+## Features
+
+- 🎯 **Onboarding** — collects profile, target role, skills, projects,
+  certifications, weekly hours, preferences (or auto-fill the demo learner *Alex*).
+- 🧭 **Skill-gap analysis** — table of `Skill | Current | Required | Gap | Priority`
+  with dependency ordering and per-skill "why it matters".
+- 🗺️ **Personalized roadmap** — week-by-week journey ordered by prerequisites with
+  objectives, practice, difficulty, and linked resources.
+- 📝 **Adaptive assessment** — realistic checkpoint assessment (the Statistics demo
+  scoring 48%) with per-concept analysis and weakness detection.
+- 🔁 **Evaluation agent** — scores evidence, identifies weak concepts, and states
+  whether reinforcement is required.
+- 🧩 **Adaptive replanning** — the visual centerpiece: *before/after* journey +
+  reason + evidence, with **Accept / Reject** learner control.
+- 💬 **Ask EduPath** — grounded Q&A (`"Why did my roadmap change?"`, `"What should I
+  learn this week?"`, `"What is my biggest skill gap?"`) answered from your real state.
+- 📚 **Resource library** — curated resources (courses, docs, practice, projects,
+  videos) with type, difficulty, duration, and description.
+- 🤖 **Agent activity** — a live timeline of each agent's work: what it did, when,
+  and what it decided.
+
+## Tech stack
+
+- [Next.js](https://nextjs.org/) (App Router, static export) + React 19 + TypeScript
+- [Tailwind CSS v4](https://tailwindcss.com/) — modern, responsive, dark-mode aware
+- [motion](https://motion.dev/) (`motion/react`) — smooth adaptive transitions
+- [lucide-react](https://lucide.dev/) — clean icon set
+- Deterministic agent engine in `src/lib/agents/*` — no network, no secrets, works offline
+
+## Project structure
+
+```
+src/
+  app/                  routing: /, /onboarding, /dashboard, /gaps, /roadmap,
+                        /assessment, /progress, /resources, /ask, /profile
+  components/           UI kit (ui.tsx, shell, roadmap, gap-ui, agent-activity…)
+  lib/
+    agents/             profile · skillgap · resource · planning · evaluation
+                        adaptive · resume
+    orchestrator.ts     coordinates the agent pipeline
+    store.tsx           learner state (journey) + persistence (localStorage)
+    ask.ts              grounded assistant over live learner state
+    data/               roles, resources, assessments, demo seed
+    types.ts            shared domain types
+```
+
+## Local setup
 
 ```bash
+# 1. Install dependencies
 npm install
+
+# 2. Run the dev server
 npm run dev
 ```
 
-Open http://localhost:3000 and click **Try the demo** (or Onboarding → *Fill as demo
-learner Alex*). `?demo=1` on `/onboarding` auto-fills the demo learner and jumps to review.
+Open <http://localhost:3000>. From the landing page click **Build My Learning Path**
+(or **Explore Demo**) to start onboarding.
 
-Recommended path: landing → dashboard → gaps → roadmap → **assessment (auto-fill demo)** → accept road map update → **Ask EduPath** *"Why did my roadmap change?"*.
+### Try the adaptive demo (60 seconds)
 
-## Stack
+1. On the landing page, click **Explore Demo** → onboarding auto-fills **Alex**.
+2. Review Alex's profile → the dashboard shows skill gaps vs. *Machine Learning Engineer*.
+3. Open the **Roadmap** — the initial journey starts at *Statistics*.
+4. Go to **Assessment** and take the *Statistics Checkpoint* (demo auto-completes).
+   Alex scores **48%**.
+5. Watch the **Evaluation Agent** flag *Probability* weaknesses, then review the
+   **proposed updated roadmap**: it inserts reinforcement before Machine Learning.
+6. **Accept** the change → the roadmap visibly adapts.
+7. In **Ask EduPath**, ask *"Why did my roadmap change?"* — full evidence-based
+   explanation.
 
-- Next.js 16 (App Router, Turbopack) + React 19 + TypeScript
-- Tailwind CSS v4 (CSS-first theming, class-based dark mode)
-- `motion` (Framer Motion) for the adaptive-diff animation, `lucide-react` icons
-- State persisted to `localStorage` (`edupath:state:v2`)
+## Environment variables
 
-## Architecture
+The demo is fully deterministic and runs with **no keys** — it works offline out of
+the box.
 
+To opt into an optional hosted LLM provider behind the same interface (not required
+for the demo):
+
+| Variable | Required | Description |
+| --- | --- | --- |
+| `OPENAI_API_KEY` | no | server-side key for the optional AI provider abstraction |
+| `NEXT_PUBLIC_USE_LLM` | no | set `true` to route assisted answers through the provider |
+
+Copy `.env.example` → `.env.local` and fill as needed. Secrets stay server-side;
+`.env*` is gitignored and never committed.
+
+## Development workflow (feature branches)
+
+```bash
+git checkout -b feature/improve-dashboard    # branch from main
+# … implement …
+npm run lint && npm run build                 # must pass before merging
+git commit -m "feat: improve dashboard UX"
+git push -u origin feature/improve-dashboard
+# → Vercel preview deployment → test → merge to main
 ```
-src/lib/
-  types.ts               core domain types (JourneyState, tasks, plans, changes…)
-  agents/
-    profile.ts           Observe — profile & evidence confidence
-    skillgap.ts          Reason  — gap size, priority, why
-    resource.ts          Act     — difficulty-matched resources per skill
-    planning.ts          Act     — topological skill ordering, week packing, paths
-    evaluation.ts        Evaluate— weighted per-concept scoring, weakness
-    adaptive.ts          Adapt   — reinforcement insertion + re-plan + evidence
-    resume.ts            optional profile hint from pasted resume text
-  orchestrator.ts        runs the deterministic pipeline
-  store.tsx / store-core.ts  React provider + pure state transitions
-  ask.ts                 grounded assistant over live state (question → reply)
-  data/                  roles, curated resources, assessments, demo keys
-```
 
-The whole agent engine is **pure TypeScript with no network calls** — deterministic
-and judge-friendly. It is deliberately structured so a future `OPENAI_API_KEY`
-provider can slot in behind the same `answerQuestion` / orchestrator interfaces.
-
-## Scripts
-
-| Command             | Purpose                          |
-| ------------------- | -------------------------------- |
-| `npm run dev`       | dev server (Turbopack)           |
-| `npm run build`     | production build + typecheck     |
-| `npm run start`     | serve production build           |
-| `npm run lint`      | ESLint                           |
+`main` = production. Merge via a normal commit; Vercel deploys production from `main`.
 
 ## Deployment
 
-Deploys as-is to Vercel (static, no server keys required). `export const runtime`
-stays "edge/static" — nothing depends on a backend.
+Deploys as a static export to [Vercel](https://vercel.com) — connect the GitHub repo,
+set the build command `npm run build`, and deploy. No server keys required.
+
+Production: <https://edupath-ai-alpha.vercel.app/>
+
+---
+
+## Future improvements
+
+- Replace the deterministic answer/heuristic layer with an LLM behind the same
+  `answer`/orchestrator interface, with streaming responses.
+- Persist learner history server-side (DB) instead of `localStorage`.
+- Community-contributed resources with verification, plus per-resource progress.
+- Team/mentor sharing and collaborative roadmaps.
+- Pluggable assessment question banks per role.
