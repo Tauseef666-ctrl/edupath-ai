@@ -1,0 +1,66 @@
+import type { Resource } from "@/lib/types";
+
+export const RESOURCES: Resource[] = [
+  { id: "py-automate", title: "Automate the Boring Stuff with Python", type: "book", url: "https://automatetheboringstuff.com/", skillId: "python", difficulty: "beginner", durationMinutes: 480, description: "Practical, project-first Python for people who already write code." },
+  { id: "py-coursera", title: "Python for Everybody (Coursera)", type: "course", url: "https://www.coursera.org/specializations/python", skillId: "python", difficulty: "beginner", durationMinutes: 600, description: "Gentle, syntax-and-practice oriented course covering data structures." },
+  { id: "py-docs", title: "The Python Tutorial (official)", type: "documentation", url: "https://docs.python.org/3/tutorial/", skillId: "python", difficulty: "intermediate", durationMinutes: 120, description: "Precise, reference-level walkthrough of the language." },
+  { id: "sql-sqlbolt", title: "SQLBolt — Interactive SQL Tutorial", type: "practice", url: "https://sqlbolt.com/", skillId: "sql", difficulty: "beginner", durationMinutes: 150, description: "Interactive lessons covering SELECT, JOINs, aggregation, and subqueries." },
+  { id: "sql-w3schools", title: "W3Schools SQL Tutorial", type: "documentation", url: "https://www.w3schools.com/sql/", skillId: "sql", difficulty: "beginner", durationMinutes: 180, description: "Concise reference and exercises for every major SQL clause." },
+  { id: "sql-khan", title: "Khan Academy — Intro to SQL", type: "course", url: "https://www.khanacademy.org/computing/computer-programming/sql", skillId: "sql", difficulty: "beginner", durationMinutes: 240, description: "Visual, interactive introduction to querying and modifying data." },
+  { id: "js-mdn", title: "MDN — JavaScript Guide", type: "documentation", url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide", skillId: "javascript", difficulty: "beginner", durationMinutes: 360, description: "The authoritative language guide with modern examples." },
+  { id: "js-fcc", title: "freeCodeCamp — JavaScript Algorithms", type: "practice", url: "https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/", skillId: "javascript", difficulty: "beginner", durationMinutes: 600, description: "Hundreds of progressively harder coding challenges." },
+  { id: "html-mdn", title: "MDN — HTML & CSS Curriculum", type: "documentation", url: "https://developer.mozilla.org/en-US/docs/Learn_web_development", skillId: "html_css", difficulty: "beginner", durationMinutes: 240, description: "Structured pathway through semantic HTML and modern CSS." },
+  { id: "git-github", title: "GitHub Skills — Introduction to GitHub", type: "course", url: "https://skills.github.com/", skillId: "git", difficulty: "beginner", durationMinutes: 120, description: "Official hands-on course covering commits, branches, and PRs." },
+  { id: "git-atlassian", title: "Atlassian Git Tutorials", type: "article", url: "https://www.atlassian.com/git/tutorials", skillId: "git", difficulty: "intermediate", durationMinutes: 200, description: "Clear explanations of branching, merging, and undoing changes." },
+  { id: "stats-statquest", title: "StatQuest — Statistics Fundamentals", type: "video", url: "https://www.youtube.com/playlist?list=PLblh5JKOoLUK0FLuzwntyYI10UQFUhsY9", skillId: "statistics", difficulty: "beginner", durationMinutes: 240, description: "The most intuitive series for mean, variance, distributions, and hypothesis testing." },
+  { id: "stats-khan", title: "Khan Academy — Statistics and Probability", type: "course", url: "https://www.khanacademy.org/math/statistics-probability", skillId: "statistics", difficulty: "beginner", durationMinutes: 540, description: "A thorough interactive course with exercises and explanations." },
+  { id: "stats-openintro", title: "OpenIntro Statistics (free textbook)", type: "book", url: "https://www.openintro.org/book/os/", skillId: "statistics", difficulty: "intermediate", durationMinutes: 480, description: "A rigorous, free introduction with real case studies." },
+  { id: "stats-islr", title: "Introduction to Statistical Learning (ISLR)", type: "book", url: "https://www.statlearning.com/", skillId: "statistics", difficulty: "advanced", durationMinutes: 720, description: "The standard bridge from statistics to machine learning." },
+  { id: "prob-3b1b", title: "3Blue1Brown — Probability & Bayes", type: "video", url: "https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi", skillId: "probability", difficulty: "intermediate", durationMinutes: 120, description: "Visual intuition for conditional probability and Bayes' theorem." },
+  { id: "prob-khan", title: "Khan Academy — Probability", type: "course", url: "https://www.khanacademy.org/math/statistics-probability/probability-library", skillId: "probability", difficulty: "beginner", durationMinutes: 360, description: "Practice-heavy introduction to events, independence, and Bayes' rule." },
+  { id: "prob-seeingtheory", title: "Seeing Theory — Probability Visualised", type: "article", url: "https://seeing-theory.brown.edu/probability/index.html", skillId: "probability", difficulty: "intermediate", durationMinutes: 90, description: "Interactive browser visualisations of distributions and probability concepts." },
+  { id: "prob-distributions", title: "Common Probability Distributions Explained", type: "article", url: "https://towardsdatascience.com/probability-distributions-for-data-science-cc58d6d94e99", skillId: "probability", difficulty: "intermediate", durationMinutes: 60, description: "Walkthrough of the distributions you will meet constantly in ML." },
+  { id: "numpy-official", title: "NumPy Quickstart — Official Docs", type: "documentation", url: "https://numpy.org/doc/stable/user/absolute_beginners.html", skillId: "numpy", difficulty: "beginner", durationMinutes: 120, description: "Official absolute-beginners guide with runnable examples." },
+  { id: "numpy-100", title: "100 NumPy Exercises", type: "practice", url: "https://github.com/rougier/numpy-100", skillId: "numpy", difficulty: "intermediate", durationMinutes: 180, description: "A famous checklist of graded exercises to build fluency fast." },
+  { id: "pandas-official", title: "Pandas User Guide — Getting Started", type: "documentation", url: "https://pandas.pydata.org/docs/getting_started/index.html", skillId: "pandas", difficulty: "beginner", durationMinutes: 200, description: "Official tutorials covering DataFrames, filtering, grouping, and joining." },
+  { id: "pandas-practice", title: "Pandas Exercises (W3resource)", type: "practice", url: "https://www.w3resource.com/python-exercises/pandas/index.php", skillId: "pandas", difficulty: "intermediate", durationMinutes: 240, description: "Batched exercises testing real DataFrames manipulation." },
+  { id: "ml-ng", title: "Machine Learning Specialization — Andrew Ng", type: "course", url: "https://www.coursera.org/specializations/machine-learning-introduction", skillId: "machine-learning", difficulty: "intermediate", durationMinutes: 1080, description: "The definitive introduction to regression, classification, and learning algorithms." },
+  { id: "ml-islr", title: "Introduction to Statistical Learning", type: "book", url: "https://www.statlearning.com/", skillId: "machine-learning", difficulty: "intermediate", durationMinutes: 720, description: "Theory plus Python labs for the core ML toolkit." },
+  { id: "ml-sklearn", title: "scikit-learn — User Guide", type: "documentation", url: "https://scikit-learn.org/stable/user_guide.html", skillId: "machine-learning", difficulty: "intermediate", durationMinutes: 360, description: "The practical reference for building models in Python." },
+  { id: "ml-titanic", title: "Kaggle — Titanic: Machine Learning from Disaster", type: "project", url: "https://www.kaggle.com/c/titanic", skillId: "machine-learning", difficulty: "intermediate", durationMinutes: 360, description: "The classic first end-to-end prediction project." },
+  { id: "eval-statquest", title: "StatQuest — Model Evaluation", type: "video", url: "https://www.youtube.com/watch?v=Kdsp6soqA7o", skillId: "model-evaluation", difficulty: "intermediate", durationMinutes: 120, description: "Bias, variance, train/test splits, and cross-validation, explained simply." },
+  { id: "eval-sklearn", title: "scikit-learn — Cross-validation", type: "documentation", url: "https://scikit-learn.org/stable/modules/cross_validation.html", skillId: "model-evaluation", difficulty: "intermediate", durationMinutes: 200, description: "Reference for cross-validation, metrics, and model selection." },
+  { id: "eval-precision", title: "Understanding Precision and Recall", type: "article", url: "https://en.wikipedia.org/wiki/Precision_and_recall", skillId: "model-evaluation", difficulty: "beginner", durationMinutes: 45, description: "Clear reference for the classification metrics you will use constantly." },
+  { id: "dl-3b1b", title: "3Blue1Brown — Neural Networks", type: "video", url: "https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi", skillId: "deep-learning", difficulty: "beginner", durationMinutes: 160, description: "The best visual intuition for how neural networks actually learn." },
+  { id: "dl-fastai", title: "Practical Deep Learning for Coders (fast.ai)", type: "course", url: "https://course.fast.ai/", skillId: "deep-learning", difficulty: "intermediate", durationMinutes: 1200, description: "Top-down course for coders — you train real models immediately." },
+  { id: "dl-pytorch", title: "PyTorch — 60-Minute Blitz", type: "documentation", url: "https://pytorch.org/tutorials/beginner/deep_learning_60min_blitz.html", skillId: "deep-learning", difficulty: "intermediate", durationMinutes: 120, description: "Start building networks fast with the official PyTorch tutorial." },
+  { id: "dp-kaggle", title: "Kaggle Learn — Data Cleaning", type: "course", url: "https://www.kaggle.com/learn/data-cleaning", skillId: "data-processing", difficulty: "intermediate", durationMinutes: 240, description: "Hands-on notebooks covering the messy realities of real data." },
+  { id: "dp-article", title: "The Ultimate Guide to Data Cleaning", type: "article", url: "https://towardsdatascience.com/the-ultimate-guide-to-data-cleaning-3969843991d4", skillId: "data-processing", difficulty: "intermediate", durationMinutes: 60, description: "A structured tour of common cleaning operations and when to apply them." },
+  { id: "react-official", title: "React — Official Tutorial", type: "documentation", url: "https://react.dev/learn", skillId: "react", difficulty: "beginner", durationMinutes: 480, description: "The official interactive course for components, state, and effects." },
+  { id: "api-mdn", title: "MDN — HTTP fundamentals", type: "documentation", url: "https://developer.mozilla.org/en-US/docs/Web/HTTP", skillId: "api", difficulty: "beginner", durationMinutes: 200, description: "Foundations of HTTP — methods, status codes, and request/response flow." },
+  { id: "dv-matplotlib", title: "Matplotlib Official Tutorials", type: "documentation", url: "https://matplotlib.org/stable/tutorials/index.html", skillId: "data-visualization", difficulty: "beginner", durationMinutes: 180, description: "Start here for Python charting basics." },
+  { id: "dv-dataviz", title: "The Best Data Viz, Explained", type: "article", url: "https://www.data-to-viz.com/", skillId: "data-visualization", difficulty: "beginner", durationMinutes: 90, description: "A decision tree that tells you which chart to use for your data." },
+  { id: "da-kaggle", title: "Kaggle Learn — Data Visualization / EDA", type: "course", url: "https://www.kaggle.com/learn/data-visualization", skillId: "data-analysis", difficulty: "beginner", durationMinutes: 180, description: "Interactive notebooks on exploring and understanding datasets." },
+  { id: "algo-neetcode", title: "NeetCode — Data Structures & Algorithms", type: "practice", url: "https://neetcode.io/", skillId: "algorithms", difficulty: "intermediate", durationMinutes: 600, description: "Structured DSA roadmap with hundreds of curated coding problems." },
+  { id: "mlops-madewith", title: "Made With ML — MLOps", type: "course", url: "https://madewithml.com/", skillId: "mlops", difficulty: "intermediate", durationMinutes: 720, description: "A complete path from ML code to deployed, maintainable systems." },
+];
+
+export function resourcesForSkill(skillId: string): Resource[] {
+  return RESOURCES.filter((r) => r.skillId === skillId);
+}
+
+export function pickResources(
+  skillId: string,
+  difficulty: "beginner" | "intermediate" | "advanced",
+  count = 3
+): Resource[] {
+  const all = resourcesForSkill(skillId);
+  if (all.length === 0) return [];
+  const ordered = [...all].sort((a, b) => {
+    const rank = { beginner: 0, intermediate: 1, advanced: 2 } as const;
+    const aRank = rank[a.difficulty];
+    const bRank = rank[b.difficulty];
+    return Math.abs(aRank - rank[difficulty]) - Math.abs(bRank - rank[difficulty]);
+  });
+  return ordered.slice(0, count);
+}
