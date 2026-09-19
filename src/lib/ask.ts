@@ -141,6 +141,28 @@ export function answerQuestion(state: JourneyState, raw: string): AssistantReply
     };
   }
 
+  if (/(best|top|good|which|great|how).*resource|resource.*(for|to learn)|study material|(best|how).*(course|book|tutorial)/.test(q)) {
+    const wanted = findSkillId(
+      Object.keys(SKILLS).find((id) => new RegExp(`\\b${SKILLS[id]?.name.toLowerCase().replace(/[^a-z-]+/g, "|")}\\b`).test(q)) ??
+        q.replace(/.*resource.*?(for|on)?\s*/i, "")
+    );
+    const used = wanted ?? state.skillGaps.filter((g) => g.gap > 0)[0]?.skill.id ?? q.replace(/[^a-z-]+/g, " ");
+    const matches = RESOURCES.filter((r) => r.skillId === used).sort((a, b) => a.difficulty.localeCompare(b.difficulty)).slice(0, 3);
+    const label = SKILLS[used]?.name ?? used;
+    if (matches.length === 0) {
+      return {
+        intent: "resources",
+        answer: `I don't have curated resources tagged for "${label}" yet — but here's the practical rule: prefer interactive practice + docs over passive videos, and timebox each session. Run the next assessment and I'll attach a matched resource list.`,
+        suggestedNext: ["What should I learn this week?", "What is my biggest skill gap?"],
+      };
+    }
+    return {
+      intent: "resources",
+      answer: `Best resources for ${label}, beginner-first:\n\n${matches.map((r) => `• ${r.title} — ${formatMinutes(r.durationMinutes)}\n  ${r.description}\n  ${r.url}`).join("\n")}\n\nStart with the top one — it's the shortest path to a checkpoint pass.`,
+      suggestedNext: ["What should I learn this week?", "What is my biggest skill gap?"],
+    };
+  }
+
   if (/resource|study|material/.test(q)) {
     const plan = state.plan;
     const task = plan ? firstIncomplete(plan) : undefined;

@@ -218,17 +218,26 @@ export function Logo({
   const box = size === "lg" ? "h-10 w-10 rounded-2xl" : size === "sm" ? "h-7 w-7 rounded-lg" : "h-8.5 w-8.5 rounded-xl";
   const text = size === "lg" ? "text-xl" : size === "sm" ? "text-sm" : "text-base";
   return (
-    <Link href={href} className="flex items-center gap-2.5 group">
-      <span
-        className={cx(
-          "inline-flex items-center justify-center bg-gradient-to-br from-indigo-500 via-indigo-600 to-violet-600 text-white shadow-md shadow-indigo-600/25",
-          box
-        )}
-      >
-        <Compass className={size === "sm" ? "h-4 w-4" : "h-5 w-5"} strokeWidth={2.2} />
+    <Link href={href} className="group flex items-center gap-2.5">
+      <span className="relative inline-flex">
+        <motion.span
+          aria-hidden
+          animate={{ scale: [1, 1.22, 1], opacity: [0.5, 0.14, 0.5] }}
+          transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute inset-0 rounded-full bg-gradient-to-br from-indigo-400/60 to-violet-500/60 blur-[7px]"
+        />
+        <span
+          className={cx(
+            "relative inline-flex items-center justify-center bg-gradient-to-br from-indigo-500 via-indigo-600 to-violet-600 text-white shadow-lg shadow-indigo-600/30 ring-1 ring-inset ring-white/25 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3",
+            box
+          )}
+        >
+          <Compass className={size === "sm" ? "h-4 w-4" : "h-5 w-5"} strokeWidth={2.3} />
+        </span>
       </span>
       <span className={cx("font-semibold tracking-tight", text)}>
-        EduPath<span className="text-accent"> AI</span>
+        EduPath
+        <span className="bg-gradient-to-r from-accent to-violet-500 bg-clip-text text-transparent"> AI</span>
       </span>
     </Link>
   );
