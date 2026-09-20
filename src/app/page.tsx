@@ -15,16 +15,14 @@ import {
   BookOpen,
   ClipboardCheck,
   RefreshCw,
-  Eye,
-  BrainCircuit,
-  Wrench,
-  MessageSquareText,
   Play,
   ShieldCheck,
 } from "lucide-react";
 import { Button, Card, Logo, SectionLabel } from "@/components/ui";
 import { useTheme } from "@/components/theme";
 import { useJourney } from "@/lib/store";
+import { AgentLoopFlow } from "@/components/agent-loop";
+import { CheckpointStory } from "@/components/checkpoint-story";
 
 const LOOP = [
   { label: "Profile", icon: User, blurb: "EduPath reads what you already know" },
@@ -33,39 +31,6 @@ const LOOP = [
   { label: "Learn", icon: BookOpen, blurb: "You work through the roadmap" },
   { label: "Assess", icon: ClipboardCheck, blurb: "Checkpoints measure your evidence" },
   { label: "Adapt", icon: RefreshCw, blurb: "Weaknesses change the path — explained" },
-];
-
-const OBSERVE = [
-  {
-    icon: Eye,
-    title: "Observe",
-    text: "Reads learner state — skills, projects, certifications, assessments.",
-  },
-  {
-    icon: BrainCircuit,
-    title: "Reason",
-    text: "Compares current level against the target role's requirements.",
-  },
-  {
-    icon: Wrench,
-    title: "Act",
-    text: "Creates or modifies the learning journey with real agent tools.",
-  },
-  {
-    icon: ClipboardCheck,
-    title: "Evaluate",
-    text: "Analyses new evidence — assessment scores and weak concepts.",
-  },
-  {
-    icon: RefreshCw,
-    title: "Adapt",
-    text: "Changes future actions based on that evidence.",
-  },
-  {
-    icon: MessageSquareText,
-    title: "Explain",
-    text: "Every change carries a reason and the evidence behind it.",
-  },
 ];
 
 function LoopAnimation() {
@@ -271,43 +236,7 @@ export default function Home() {
                 a new journey — and shows exactly why, with the evidence.
               </p>
             </div>
-            <Card className="overflow-hidden">
-              <div className="grid gap-0 lg:grid-cols-3">
-                <div className="space-y-2.5 border-b border-border p-6 lg:border-b-0 lg:border-r">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-foreground/45">
-                    Before the assessment
-                  </p>
-                  {["Statistics", "Machine Learning", "Model Evaluation", "Project"].map((s, i) => (
-                    <div key={s} className="flex items-center gap-2.5">
-                      <span className="rounded-lg bg-muted px-2.5 py-1.5 text-[12.5px] font-semibold text-foreground/75 ring-1 ring-border">
-                        {s}
-                      </span>
-                      {i < 3 ? <span className="text-foreground/25">↓</span> : null}
-                    </div>
-                  ))}
-                </div>
-                <div className="flex flex-col items-center justify-center gap-2 border-b border-border bg-rose-500/[0.05] p-6 lg:border-b-0">
-                  <ClipboardCheck className="h-5 w-5 text-rose-500" />
-                  <p className="text-[13px] font-semibold text-foreground/80">Statistics Checkpoint</p>
-                  <p className="text-4xl font-bold text-rose-500">48%</p>
-                  <p className="text-[12px] text-foreground/55">weak concepts: Probability</p>
-                  <p className="text-[12px] text-foreground/55">& Probability distributions</p>
-                </div>
-                <div className="space-y-2.5 bg-accent-soft/40 p-6">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-accent">
-                    EduPath adapts the path
-                  </p>
-                  {["Statistics", "Probability Reinforcement", "Distributions", "Statistics Re-assessment", "Machine Learning"].map((s, i) => (
-                    <div key={s} className="flex items-center gap-2.5">
-                      <span className={"rounded-lg px-2.5 py-1.5 text-[12.5px] font-semibold ring-1 " + (i >= 1 && i <= 3 ? "bg-violet-500/12 text-violet-600 dark:text-violet-300 ring-violet-500/30" : "bg-muted text-foreground/75 ring-border")}>
-                        {s}
-                      </span>
-                      {i < 4 ? <span className="text-foreground/25">↓</span> : null}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </Card>
+            <CheckpointStory />
           </div>
         </section>
 
@@ -323,17 +252,7 @@ export default function Home() {
                 specialized agents — each with tools, evidence, and a visible activity log.
               </p>
             </div>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {OBSERVE.map((o) => (
-                <Card key={o.title} className="p-6">
-                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent-soft text-accent">
-                    <o.icon className="h-5 w-5" />
-                  </span>
-                  <p className="mt-4 font-semibold">{o.title}</p>
-                  <p className="mt-1.5 text-[13.5px] leading-relaxed text-foreground/55">{o.text}</p>
-                </Card>
-              ))}
-            </div>
+            <AgentLoopFlow />
             <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
               <Link href="/onboarding">
                 <Button size="lg" icon={<ArrowRight className="h-4 w-4" />}>
