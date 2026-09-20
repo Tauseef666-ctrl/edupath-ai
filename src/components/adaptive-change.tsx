@@ -213,7 +213,7 @@ export function AdaptiveChange({
                 </a>
                 <a
                   href="#decide"
-                  className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-4 py-2.5 text-[13px] font-semibold text-white shadow-sm shadow-indigo-600/25 hover:bg-indigo-500"
+                  className="inline-flex items-center gap-2 rounded-xl bg-accent px-4 py-2.5 text-[13px] font-semibold text-on-accent shadow-sm shadow-indigo-600/25 hover:bg-accent-hover"
                 >
                   <Check className="h-4 w-4" /> Accept change
                 </a>

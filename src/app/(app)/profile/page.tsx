@@ -133,7 +133,7 @@ export default function ProfilePage() {
                 max={40}
                 value={hoursDraft}
                 onChange={(e) => setHoursDraft(Number(e.target.value))}
-                className="flex-1 accent-indigo-600"
+                className="flex-1 accent-accent"
               />
               <div className="flex items-center gap-2">
                 <span className="w-16 text-right text-lg font-bold text-accent">{hoursDraft}h</span>

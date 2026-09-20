@@ -19,7 +19,7 @@ const description =
   "EduPath AI analyzes what you already know, builds a personalized learning journey toward your target career, and continuously adapts it as you learn.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://edupath-ai.vercel.app"),
+  metadataBase: new URL("https://edupath-ai-alpha.vercel.app"),
   title: {
     default: "EduPath AI — Your learning path should adapt to you.",
     template: "%s · EduPath AI",
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     type: "website",
     title: "EduPath AI — Your learning path should adapt to you.",
     description,
-    url: "https://edupath-ai.vercel.app",
+    url: "https://edupath-ai-alpha.vercel.app",
     siteName: "EduPath AI",
     locale: "en_US",
     images: [

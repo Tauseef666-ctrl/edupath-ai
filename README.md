@@ -84,17 +84,23 @@ cycle **Observe → Reason → Act → Evaluate → Adapt → Explain**.
 - 🗺️ **Personalized roadmap** — week-by-week journey ordered by prerequisites with
   objectives, practice, difficulty, and linked resources.
 - 📝 **Adaptive assessment** — realistic checkpoint assessment (the Statistics demo
-  scoring 48%) with per-concept analysis and weakness detection.
+  scoring 48%) with per-concept analysis and weakness detection, plus an agent
+  evaluation reveal between submit and results.
 - 🔁 **Evaluation agent** — scores evidence, identifies weak concepts, and states
   whether reinforcement is required.
-- 🧩 **Adaptive replanning** — the visual centerpiece: *before/after* journey +
-  reason + evidence, with **Accept / Reject** learner control.
+- 🧩 **Adaptive replanning** — the visual centerpiece: a *before/after* journey
+  diff that highlights inserted reinforcement nodes, with reason + evidence and
+  **Accept / Reject** learner control.
+- 💡 **Adaptive update card** — the dashboard explains exactly what the agents
+  found, which modules were inserted, and why, with a review CTA.
 - 💬 **Ask EduPath** — grounded Q&A (`"Why did my roadmap change?"`, `"What should I
   learn this week?"`, `"What is my biggest skill gap?"`) answered from your real state.
 - 📚 **Resource library** — curated resources (courses, docs, practice, projects,
   videos) with type, difficulty, duration, and description.
 - 🤖 **Agent activity** — a live timeline of each agent's work: what it did, when,
   and what it decided.
+- 🎨 **Brand identity suite** — generated mark/wordmark SVGs, app icon set, and a
+  1200×630 OG image via `scripts/generate-assets.mjs` (uses the bundled `sharp`).
 
 ## Tech stack
 
@@ -133,6 +139,23 @@ npm run dev
 
 Open <http://localhost:3000>. From the landing page click **Build My Learning Path**
 (or **Explore Demo**) to start onboarding.
+
+### Validation
+
+```bash
+npm run lint        # ESLint
+npm run typecheck   # tsc --noEmit
+npm run build       # production build (static export)
+```
+
+### Regenerating brand assets
+
+The icon set, mark/wordmark SVGs, and OG image live under `public/brand/` and
+`src/app/icon.*`. To regenerate after changing the brand source:
+
+```bash
+node scripts/generate-assets.mjs
+```
 
 ### Try the adaptive demo (60 seconds)
 
