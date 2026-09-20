@@ -38,6 +38,7 @@ declare module "lucide-react" {
   export const Flame: Icon;
   export const FolderGit2: Icon;
   export const GitFork: Icon;
+  export const GitPullRequestArrow: Icon;
   export const Landmark: Icon;
   export const LayoutDashboard: Icon;
   export const Library: Icon;

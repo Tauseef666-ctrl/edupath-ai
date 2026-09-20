@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "motion/react";
 import {
   ArrowRight,
   GitFork,
@@ -16,6 +15,7 @@ import { Card, Badge, ProgressBar, EmptyState, Button, cx } from "@/components/u
 import { useJourney } from "@/lib/store";
 import { completionOf, firstIncomplete, planSummary } from "@/lib/agents/planning";
 import { AgentActivity } from "@/components/agent-activity";
+import { AdaptiveUpdateCard } from "@/components/adaptive-update-card";
 import { ROLES } from "@/lib/data/roles";
 import { formatMinutes, skillName } from "@/lib/utils";
 
@@ -86,37 +86,16 @@ export default function DashboardPage() {
       </div>
 
       {pendingChange ? (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="overflow-hidden rounded-2xl border border-amber-500/40 bg-gradient-to-r from-amber-500/10 to-accent-soft/40"
-        >
-          <div className="flex flex-wrap items-center justify-between gap-4 px-5 py-4">
-            <div className="flex items-center gap-3">
-              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/15 text-amber-600 dark:text-amber-300">
-                <Sparkles className="h-5 w-5" />
-              </span>
-              <div>
-                <p className="text-[14px] font-semibold">
-                  Your journey has been updated — based on your assessment evidence.
-                </p>
-                <p className="mt-0.5 max-w-xl text-[12.5px] leading-relaxed text-foreground/60">
-                  Weakness detected in {pendingChange.evidence[1]?.replace("Weak concepts detected: ", "")},{" "}
-                  and targeted reinforcement was inserted before your next module.
-                </p>
-              </div>
-            </div>
-            <Link href="/roadmap#change">
-              <Button icon={<ArrowRight className="h-4 w-4" />}>Review the change</Button>
-            </Link>
-          </div>
-        </motion.div>
+        <AdaptiveUpdateCard change={pendingChange} />
       ) : lastChange && lastChange.status === "approved" ? (
         <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/[0.06] px-5 py-4">
           <p className="text-[13.5px] text-emerald-700 dark:text-emerald-300">
             <span className="font-semibold">Your journey was adapted automatically:</span>{" "}
             {lastChange.summary}
           </p>
+          <Link href="/roadmap#change" className="mt-1 text-[13px] font-medium text-emerald-700 underline-offset-2 hover:underline dark:text-emerald-300">
+            View the update →
+          </Link>
         </div>
       ) : null}
 

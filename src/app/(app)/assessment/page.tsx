@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { Badge, Button, Card, cx, ProgressBar } from "@/components/ui";
 import { AdaptiveChange } from "@/components/adaptive-change";
+import { EvalProcessing } from "@/components/eval-processing";
 import { useJourney } from "@/lib/store";
 import { ASSESSMENTS } from "@/lib/data/assessments";
 import { demoAnswersForStatistics } from "@/lib/data/demo";
@@ -179,7 +180,7 @@ function AssessmentShell() {
 
   const { state, submitAssessment } = useJourney();
   const [answers, setAnswers] = useState<Record<string, number>>({});
-  const [submitted, setSubmitted] = useState(false);
+  const [phase, setPhase] = useState<"form" | "processing" | "results">("form");
   const [review, setReview] = useState(false);
 
   const latest = useMemo(
@@ -191,13 +192,17 @@ function AssessmentShell() {
   const canSubmit = answered === assessment.questions.length;
 
   function doSubmit(next: Record<string, number>) {
-    const full = { ...next };
-    submitAssessment(assessment, full);
-    setSubmitted(true);
+    submitAssessment(assessment, next);
+    setPhase("processing");
+    window.setTimeout(() => setPhase("results"), 1950);
   }
 
-  if (submitted && latest) {
+  if (phase === "results" && latest) {
     return <ResultView assessment={assessment} result={latest} />;
+  }
+
+  if (phase === "processing") {
+    return <EvalProcessing title={assessment.title} />;
   }
 
   return (

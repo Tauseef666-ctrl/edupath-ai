@@ -41,7 +41,20 @@ export default function RoadmapPage() {
 
   const pending = plan.pendingChange && !localDecided ? plan.pendingChange : undefined;
   const resultForChange = pending
-    ? assessmentResults.find((r) => r.weakConcepts.length > 0)
+    ? assessmentResults.find((r) => {
+        const scoreLine = pending.evidence.find((e) => /score:\s*\d+%/.test(e));
+        const score = scoreLine?.match(/score:\s*(\d+)%/)?.[1];
+        const weakLine = pending.evidence.find((e) =>
+          e.startsWith("Weak concepts detected: ")
+        );
+        const weak = weakLine
+          ? weakLine.replace("Weak concepts detected: ", "").split(",").map((s) => s.trim())
+          : [];
+        const sameScore = score !== undefined ? String(r.score) === score : true;
+        const sameWeak =
+          weak.length > 0 ? weak.every((w) => r.weakConcepts.includes(w)) : true;
+        return sameScore && sameWeak;
+      })
     : undefined;
   const lastWeek = plan.tasks.length > 0 ? Math.max(...plan.tasks.map((t) => t.week)) : 0;
   const totalMinutes = plan.tasks.reduce((s, t) => s + t.estimatedMinutes, 0);
