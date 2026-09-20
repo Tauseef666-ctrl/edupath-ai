@@ -1,7 +1,7 @@
 "use client";
 
 import type { AgentEvent } from "@/lib/types";
-import { cx } from "@/components/ui";
+import { Badge, cx } from "@/components/ui";
 import { timeAgo } from "@/lib/utils";
 import { motion } from "motion/react";
 import {
@@ -103,6 +103,11 @@ export function AgentActivity({
               <div className="flex items-center gap-2">
                 <span className="text-[13px] font-semibold">{evt.agent}</span>
                 <span className="text-[12px] text-foreground/40">{evt.action}</span>
+                {typeof evt.metadata?.version === "number" ? (
+                  <Badge tone="indigo" className="shrink-0">
+                    v{evt.metadata.version}
+                  </Badge>
+                ) : null}
                 <span className="ml-auto flex-none text-[11px] text-foreground/35">
                   {timeAgo(evt.timestamp)}
                 </span>

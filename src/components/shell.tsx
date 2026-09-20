@@ -32,6 +32,67 @@ const NAV = [
   { href: "/resources", label: "Resources", icon: Library },
 ];
 
+const DEMO_STEPS = [
+  { href: "/profile", label: "Profile" },
+  { href: "/gaps", label: "Gaps" },
+  { href: "/roadmap", label: "Roadmap" },
+  { href: "/assessment", label: "Assess" },
+  { href: "/roadmap#change", label: "Adapt" },
+  { href: "/ask", label: "Ask" },
+];
+
+function DemoStepper() {
+  const pathname = usePathname();
+  const { state } = useJourney();
+  if (!state.demoMode) return null;
+  const done = [
+    Boolean(state.profile),
+    state.gapAnalysisDone,
+    Boolean(state.plan),
+    state.assessmentResults.length > 0,
+    state.planChanges.length > 0 || Boolean(state.plan?.pendingChange),
+    true,
+  ];
+  return (
+    <nav aria-label="Demo journey" className="border-b border-border bg-muted/30">
+      <div className="mx-auto flex max-w-[1400px] items-center gap-1 overflow-x-auto px-4 py-2 sm:px-6 lg:px-8">
+        <span className="mr-2 flex-none text-[11px] font-semibold uppercase tracking-[0.14em] text-foreground/40">
+          Demo
+        </span>
+        {DEMO_STEPS.map((step, i) => {
+          const active = pathname === step.href.split("#")[0];
+          const completed = done[i];
+          return (
+            <Link
+              key={step.label}
+              href={step.href}
+              aria-current={active ? "step" : undefined}
+              className={clsx(
+                "flex flex-none items-center gap-1.5 rounded-full px-2.5 py-1 text-[11.5px] font-medium transition-colors",
+                active
+                  ? "bg-accent-soft text-accent"
+                  : completed
+                    ? "text-foreground/70 hover:bg-muted"
+                    : "text-foreground/40 hover:bg-muted"
+              )}
+            >
+              <span
+                className={clsx(
+                  "flex h-4 w-4 items-center justify-center rounded-full text-[9px] font-bold",
+                  completed ? "bg-emerald-500 text-white" : "bg-border text-foreground/50"
+                )}
+              >
+                {completed ? "✓" : i + 1}
+              </span>
+              {step.label}
+            </Link>
+          );
+        })}
+      </div>
+    </nav>
+  );
+}
+
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const { dark, toggle } = useTheme();
@@ -135,6 +196,8 @@ export function AppShell({ children }: { children: ReactNode }) {
           </nav>
         ) : null}
       </header>
+
+      <DemoStepper />
 
       <main id="main-content" className="mx-auto w-full max-w-[1400px] px-4 py-6 outline-none sm:px-6 lg:px-8 lg:py-8">
         {children}

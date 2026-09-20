@@ -73,7 +73,7 @@ export default function AskPage() {
       </div>
 
       <Card className="flex min-h-0 flex-1 flex-col overflow-hidden">
-        <div className="flex-1 space-y-4 overflow-y-auto p-4 sm:p-5">
+        <div className="flex-1 space-y-4 overflow-y-auto p-4 sm:p-5" aria-live="polite">
           {items.length === 0 ? (
             <div className="flex h-full flex-col items-center justify-center gap-4 py-8 text-center">
               <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-accent-soft text-accent">
@@ -186,7 +186,7 @@ export default function AskPage() {
             <button
               type="submit"
               disabled={!input.trim() || thinking}
-              className="inline-flex h-11 w-11 flex-none items-center justify-center rounded-xl bg-indigo-600 text-white transition-colors hover:bg-indigo-500 disabled:pointer-events-none disabled:opacity-40"
+              className="inline-flex h-11 w-11 flex-none items-center justify-center rounded-xl bg-accent text-on-accent transition-colors hover:bg-accent-hover disabled:pointer-events-none disabled:opacity-40"
               aria-label="Send"
             >
               <Send className="h-4.5 w-4.5" />

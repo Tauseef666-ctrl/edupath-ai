@@ -6,8 +6,11 @@ import { Suspense, useMemo, useRef, useState } from "react";
 import {
   ArrowLeft,
   ArrowRight,
+  BookOpen,
   Check,
   FileUp,
+  GitFork,
+  Map,
   Sparkles,
   Upload,
   Briefcase,
@@ -15,6 +18,7 @@ import {
   SlidersHorizontal,
   Calendar,
   Target,
+  User,
   Wrench,
 } from "lucide-react";
 import { Button, Card, Logo, ProgressBar, cx } from "@/components/ui";
@@ -72,6 +76,15 @@ const STAGE_LABELS = [
   "Building learning sequence...",
   "Selecting resources...",
   "Creating your journey...",
+];
+
+const STAGE_AGENTS: { name: string; icon: typeof Sparkles }[] = [
+  { name: "Profile Agent", icon: User },
+  { name: "Skill Gap Agent", icon: GitFork },
+  { name: "Skill Gap Agent", icon: GitFork },
+  { name: "Planning Agent", icon: Map },
+  { name: "Resource Agent", icon: BookOpen },
+  { name: "Orchestrator", icon: Sparkles },
 ];
 
 const DEMO_SKILL_LEVELS: Record<string, number> = {
@@ -292,7 +305,7 @@ function toggleSkill(id: string) {
                     onClick={() => setStep(s.id)}
                     className={cx(
                       "h-1.5 flex-1 rounded-full transition-colors",
-                      s.id === step ? "bg-accent" : s.id < step ? "bg-indigo-400/60" : "bg-muted"
+                      s.id === step ? "bg-accent" : s.id < step ? "bg-accent/60" : "bg-muted"
                     )}
                     aria-label={`Go to step ${s.label}`}
                   />
@@ -418,8 +431,8 @@ function toggleSkill(id: string) {
                                         "h-3 w-7 rounded-full transition-colors sm:w-5",
                                         l <= skillLevels[id]
                                           ? l <= 2
-                                            ? "bg-amber-400"
-                                            : "bg-indigo-400"
+                                            ? "bg-warning"
+                                            : "bg-accent"
                                           : "bg-muted"
                                       )}
                                       aria-label={`Level ${l}`}
@@ -512,11 +525,11 @@ function toggleSkill(id: string) {
                         max={40}
                         value={hours}
                         onChange={(e) => setHours(Number(e.target.value))}
-                        className="mt-6 w-full accent-indigo-600"
+                        className="mt-6 w-full accent-accent"
                       />
                       <div className="mt-2 flex justify-between text-[11.5px] text-foreground/45">
                         <span>2 hrs</span>
-                        <span>20 sprinters</span>
+                        <span>20 hrs</span>
                         <span>40 hrs</span>
                       </div>
                       <p className="mt-4 text-[12.5px] leading-relaxed text-foreground/50">
@@ -722,18 +735,47 @@ function toggleSkill(id: string) {
                 </div>
               </div>
               <div className="mt-6 space-y-3">
-                {STAGE_LABELS.map((label, i) => (
-                  <div
-                    key={label}
-                    className={cx(
-                      "flex items-center gap-3 text-[13px]",
-                      i <= stage ? "text-foreground" : "text-foreground/35"
-                    )}
-                  >
-                    <span className={cx("h-2 w-2 rounded-full", i < stage ? "bg-emerald-500" : i === stage ? "bg-accent dot-ring" : "bg-muted")} />
-                    {label}
-                  </div>
-                ))}
+                {STAGE_LABELS.map((label, i) => {
+                  const agent = STAGE_AGENTS[i];
+                  const AgentIcon = agent.icon;
+                  const done = i < stage;
+                  const current = i === stage;
+                  return (
+                    <motion.div
+                      key={label}
+                      className={cx(
+                        "flex items-center gap-3 text-[13px]",
+                        current || done ? "text-foreground" : "text-foreground/35"
+                      )}
+                      initial={current ? { opacity: 0, x: -6 } : false}
+                      animate={current ? { opacity: 1, x: 0 } : undefined}
+                    >
+                      <span className="flex h-8 w-8 flex-none items-center justify-center rounded-full bg-muted text-foreground/70">
+                        <AgentIcon className="h-4 w-4" />
+                      </span>
+                      <div className="min-w-0">
+                        <p className="truncate font-medium">{label}</p>
+                        <p
+                          className={cx(
+                            "text-[11.5px]",
+                            current ? "text-accent" : "text-foreground/40"
+                          )}
+                        >
+                          {agent.name}
+                        </p>
+                      </div>
+                      {done ? (
+                        <Check className="ml-auto h-4 w-4 flex-none text-emerald-500" />
+                      ) : current ? (
+                        <motion.span
+                          className="ml-auto h-2 w-2 flex-none rounded-full bg-accent dot-ring"
+                          animate={{ opacity: [0.4, 1, 0.4] }}
+                          transition={{ repeat: Infinity, duration: 1.2 }}
+                        />
+                      ) : null}
+                    </motion.div>
+                  );
+                })}
               </div>
               <ProgressBar value={(stage / (STAGE_LABELS.length - 1)) * 100} className="mt-6" />
             </Card>
