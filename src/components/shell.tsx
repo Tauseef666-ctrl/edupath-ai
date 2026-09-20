@@ -56,6 +56,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 ? "bg-accent-soft text-accent"
                 : "text-foreground/55 hover:bg-muted hover:text-foreground"
             )}
+            aria-current={active ? "page" : undefined}
           >
             <Icon className="h-[18px] w-[18px]" />
             {item.label}
@@ -70,6 +71,12 @@ export function AppShell({ children }: { children: ReactNode }) {
 
   return (
     <div className="min-h-screen">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-xl focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-on-accent"
+      >
+        Skip to content
+      </a>
       {pending ? (
         <div className="sticky top-0 z-40 border-b border-amber-500/25 bg-amber-500/10 px-4 py-2 text-center backdrop-blur">
           <Link
@@ -129,7 +136,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         ) : null}
       </header>
 
-      <main className="mx-auto w-full max-w-[1400px] px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
+      <main id="main-content" className="mx-auto w-full max-w-[1400px] px-4 py-6 outline-none sm:px-6 lg:px-8 lg:py-8">
         {children}
       </main>
     </div>
