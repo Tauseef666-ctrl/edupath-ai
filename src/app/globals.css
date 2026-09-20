@@ -8,9 +8,28 @@
   --card: #ffffff;
   --muted: #f1f5f9;
   --border: #e5e9f0;
+  --border-strong: #d3dae6;
+
   --accent: #4f46e5;
+  --accent-hover: #4338ca;
   --accent-soft: #eef2ff;
   --ring: #a5b4fc;
+  --on-accent: #ffffff;
+
+  --success: #059669;
+  --success-soft: rgba(16, 185, 129, 0.12);
+  --warning: #d97706;
+  --warning-soft: rgba(245, 158, 11, 0.14);
+  --danger: #e11d48;
+  --danger-soft: rgba(244, 63, 94, 0.12);
+  --info: #0284c7;
+  --info-soft: rgba(14, 165, 233, 0.12);
+  --violet: #7c3aed;
+  --violet-soft: rgba(139, 92, 246, 0.14);
+
+  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.06);
+  --shadow-lifted: 0 8px 24px -6px rgba(15, 23, 42, 0.12), 0 2px 6px -2px rgba(15, 23, 42, 0.08);
+  --shadow-glow: 0 0 0 1px rgba(99, 102, 241, 0.18), 0 8px 30px -8px rgba(99, 102, 241, 0.35);
 }
 
 .dark {
@@ -19,9 +38,28 @@
   --card: #111318;
   --muted: #1a1d24;
   --border: #23272f;
+  --border-strong: #2e333d;
+
   --accent: #818cf8;
-  --accent-soft: rgba(99, 102, 241, 0.12);
+  --accent-hover: #a5b4fc;
+  --accent-soft: rgba(99, 102, 241, 0.14);
   --ring: #4f46e5;
+  --on-accent: #ffffff;
+
+  --success: #34d399;
+  --success-soft: rgba(52, 211, 153, 0.14);
+  --warning: #fbbf24;
+  --warning-soft: rgba(251, 191, 36, 0.14);
+  --danger: #fb7185;
+  --danger-soft: rgba(251, 113, 133, 0.14);
+  --info: #38bdf8;
+  --info-soft: rgba(56, 189, 248, 0.14);
+  --violet: #a78bfa;
+  --violet-soft: rgba(167, 139, 250, 0.16);
+
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.5);
+  --shadow-lifted: 0 10px 28px -8px rgba(0, 0, 0, 0.6), 0 2px 8px -2px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 0 1px rgba(129, 140, 248, 0.22), 0 10px 34px -10px rgba(99, 102, 241, 0.45);
 }
 
 @theme inline {
@@ -30,14 +68,33 @@
   --color-card: var(--card);
   --color-muted: var(--muted);
   --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
   --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
   --color-accent-soft: var(--accent-soft);
   --color-ring: var(--ring);
+  --color-on-accent: var(--on-accent);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+  --color-violet: var(--violet);
+  --color-violet-soft: var(--violet-soft);
+
+  --shadow-card: var(--shadow-card);
+  --shadow-lifted: var(--shadow-lifted);
+  --shadow-glow: var(--shadow-glow);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --animate-fade-in: fade-in 0.4s ease-out both;
   --animate-float: float 7s ease-in-out infinite;
   --animate-border-glow: border-glow 3s ease-in-out infinite;
+  --animate-pulse-soft: pulse-soft 2.4s ease-in-out infinite;
 }
 
 @keyframes fade-in {
@@ -71,6 +128,18 @@
   }
 }
 
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.04);
+  }
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -80,6 +149,7 @@ body {
   color: var(--foreground);
   font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 * {
@@ -90,9 +160,28 @@ body {
   background: rgba(99, 102, 241, 0.25);
 }
 
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
 .card-surface {
   background: var(--card);
   border: 1px solid var(--border);
+  box-shadow: var(--shadow-card);
+}
+
+.surface-hover {
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
+}
+
+.surface-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lifted);
 }
 
 .glass {
@@ -103,7 +192,7 @@ body {
 }
 
 .text-gradient {
-  background: linear-gradient(120deg, var(--foreground), var(--accent) 70%);
+  background: linear-gradient(120deg, var(--foreground), var(--accent) 72%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -111,6 +200,10 @@ body {
 
 .dot-ring {
   box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.agent-ring-active {
+  animation: pulse-soft 2.4s ease-in-out infinite;
 }
 
 ::-webkit-scrollbar {

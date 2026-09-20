@@ -9,7 +9,8 @@ import {
   type ReactNode,
 } from "react";
 import { motion } from "motion/react";
-import { Compass, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
+import { EduMark } from "@/components/brand";
 
 export function cx(...parts: (string | false | null | undefined)[]): string {
   return clsx(parts);
@@ -35,15 +36,12 @@ export type ButtonProps = ButtonBaseProps &
 
 const buttonVariants: Record<ButtonVariant, string> = {
   primary:
-    "bg-indigo-600 text-white hover:bg-indigo-500 active:bg-indigo-700 shadow-sm shadow-indigo-600/20 border border-transparent",
-  secondary:
-    "bg-accent-soft text-accent hover:opacity-90 border border-transparent",
-  outline:
-    "border border-border bg-card hover:bg-muted text-foreground",
+    "bg-accent text-on-accent hover:bg-accent-hover active:bg-accent-hover shadow-sm shadow-indigo-600/20 border border-transparent",
+  secondary: "bg-accent-soft text-accent hover:bg-accent/15 border border-transparent",
+  outline: "border border-border bg-card hover:bg-muted text-foreground",
   ghost: "hover:bg-muted text-foreground/80 hover:text-foreground",
-  subtle:
-    "bg-muted text-foreground hover:bg-border border border-transparent",
-  danger: "bg-rose-600 text-white hover:bg-rose-500 border border-transparent",
+  subtle: "bg-muted text-foreground hover:bg-border border border-transparent",
+  danger: "bg-danger text-white hover:brightness-110 border border-transparent",
 };
 
 const buttonSizes: Record<string, string> = {
@@ -63,6 +61,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         className={cx(
           "inline-flex items-center justify-center font-medium transition-all duration-150 select-none",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 disabled:opacity-50 disabled:pointer-events-none",
+          "active:scale-[0.985] active:shadow-none",
           buttonVariants[variant],
           buttonSizes[size],
           className
@@ -84,10 +83,7 @@ export function Card({
 }: HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cx(
-        "card-surface rounded-2xl shadow-sm shadow-black/[0.03] dark:shadow-black/20",
-        className
-      )}
+      className={cx("card-surface rounded-2xl", className)}
       {...rest}
     >
       {children}
@@ -129,20 +125,22 @@ export function CardHeader({
 export function Badge({
   children,
   tone = "zinc",
+  icon,
   className,
 }: {
   children: ReactNode;
   tone?: "zinc" | "indigo" | "emerald" | "amber" | "rose" | "sky" | "violet";
+  icon?: ReactNode;
   className?: string;
 }) {
   const tones: Record<string, string> = {
     zinc: "bg-muted text-foreground/70",
     indigo: "bg-accent-soft text-accent",
-    emerald: "bg-emerald-500/12 text-emerald-600 dark:text-emerald-300",
-    amber: "bg-amber-500/12 text-amber-600 dark:text-amber-300",
-    rose: "bg-rose-500/12 text-rose-600 dark:text-rose-300",
-    sky: "bg-sky-500/12 text-sky-600 dark:text-sky-300",
-    violet: "bg-violet-500/12 text-violet-600 dark:text-violet-300",
+    emerald: "bg-success-soft text-success",
+    amber: "bg-warning-soft text-warning",
+    rose: "bg-danger-soft text-danger",
+    sky: "bg-info-soft text-info",
+    violet: "bg-violet-soft text-violet",
   };
   return (
     <span
@@ -152,6 +150,7 @@ export function Badge({
         className
       )}
     >
+      {icon ? <span className="shrink-0 [&>svg]:h-3 [&>svg]:w-3">{icon}</span> : null}
       {children}
     </span>
   );
@@ -167,10 +166,10 @@ export function LevelDots({ level, max = 5 }: { level: number; max?: number }) {
             "h-1.5 w-4 rounded-full transition-colors",
             i < level
               ? level <= 2
-                ? "bg-amber-400"
+                ? "bg-warning"
                 : level <= 3
-                  ? "bg-indigo-400"
-                  : "bg-emerald-400"
+                  ? "bg-accent"
+                  : "bg-success"
               : "bg-muted"
           )}
         />
@@ -189,15 +188,21 @@ export function ProgressBar({
   className?: string;
 }) {
   const tones = {
-    accent: "bg-indigo-500",
-    emerald: "bg-emerald-500",
-    rose: "bg-rose-500",
-    amber: "bg-amber-500",
-    sky: "bg-sky-500",
+    accent: "bg-accent",
+    emerald: "bg-success",
+    rose: "bg-danger",
+    amber: "bg-warning",
+    sky: "bg-info",
   };
   const clamped = Math.max(0, Math.min(100, value));
   return (
-    <div className={cx("h-2 w-full overflow-hidden rounded-full bg-muted", className)}>
+    <div
+      role="progressbar"
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-valuenow={Math.round(clamped)}
+      className={cx("h-2 w-full overflow-hidden rounded-full bg-muted", className)}
+    >
       <motion.div
         className={cx("h-full rounded-full", tones[tone])}
         initial={{ width: 0 }}
@@ -215,29 +220,28 @@ export function Logo({
   size?: "sm" | "md" | "lg";
   href?: string;
 }) {
-  const box = size === "lg" ? "h-10 w-10 rounded-2xl" : size === "sm" ? "h-7 w-7 rounded-lg" : "h-8.5 w-8.5 rounded-xl";
+  const mark = size === "lg" ? "lg" : size === "sm" ? "sm" : "md";
   const text = size === "lg" ? "text-xl" : size === "sm" ? "text-sm" : "text-base";
   return (
     <Link href={href} className="group flex items-center gap-2.5">
       <span className="relative inline-flex">
         <motion.span
           aria-hidden
-          animate={{ scale: [1, 1.22, 1], opacity: [0.5, 0.14, 0.5] }}
-          transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute inset-0 rounded-full bg-gradient-to-br from-indigo-400/60 to-violet-500/60 blur-[7px]"
+          animate={{ scale: [1, 1.2, 1], opacity: [0.55, 0.18, 0.55] }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute inset-0 rounded-2xl bg-gradient-to-br from-indigo-500/60 to-violet-500/60 blur-md"
         />
-        <span
-          className={cx(
-            "relative inline-flex items-center justify-center bg-gradient-to-br from-indigo-500 via-indigo-600 to-violet-600 text-white shadow-lg shadow-indigo-600/30 ring-1 ring-inset ring-white/25 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3",
-            box
-          )}
-        >
-          <Compass className={size === "sm" ? "h-4 w-4" : "h-5 w-5"} strokeWidth={2.3} />
-        </span>
+        <EduMark
+          size={mark}
+          className="shadow-lg shadow-indigo-600/25 ring-1 ring-white/20 transition-transform duration-300 group-hover:scale-110"
+        />
       </span>
       <span className={cx("font-semibold tracking-tight", text)}>
         EduPath
-        <span className="bg-gradient-to-r from-accent to-violet-500 bg-clip-text text-transparent"> AI</span>
+        <span className="bg-gradient-to-r from-accent to-violet-500 bg-clip-text text-transparent">
+          {" "}
+          AI
+        </span>
       </span>
     </Link>
   );

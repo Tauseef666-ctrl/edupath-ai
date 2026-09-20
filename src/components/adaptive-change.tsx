@@ -5,33 +5,61 @@ import { ArrowRight, Check, FileWarning, Sparkles, X } from "lucide-react";
 import type { AssessmentResult, LearningPlan, PlanChange } from "@/lib/types";
 import { cx } from "@/components/ui";
 
-function PathNode({ label, active }: { label: string; active?: boolean }) {
+type PathItem = { label: string; inserted?: boolean };
+
+function diffPath(previous: string[], updated: string[]): PathItem[] {
+  const used = new Set<number>();
+  return updated.map((label) => {
+    const idx = previous.findIndex((p, i) => !used.has(i) && p === label);
+    if (idx === -1) return { label, inserted: true };
+    used.add(idx);
+    return { label };
+  });
+}
+
+function PathNode({ label, inserted }: { label: string; inserted?: boolean }) {
   return (
     <div className="flex flex-col items-center gap-2">
-      <span
+      <motion.span
         className={cx(
-          "flex h-9 w-9 items-center justify-center rounded-xl text-[13px] font-bold",
-          active
-            ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-300 ring-1 ring-emerald-500/30"
+          "relative flex h-9 w-9 items-center justify-center rounded-xl text-[13px] font-bold",
+          inserted
+            ? "bg-amber-500/15 text-amber-600 ring-1 ring-amber-500/40 dark:text-amber-300"
             : "bg-muted text-foreground/80 ring-1 ring-border"
         )}
+        initial={inserted ? { scale: 0.5, opacity: 0 } : false}
+        animate={inserted ? { scale: 1, opacity: 1 } : undefined}
+        transition={{ type: "spring", stiffness: 240, damping: 16 }}
       >
         {label.slice(0, 2).toUpperCase()}
-      </span>
-      <span className="text-center text-[11px] font-semibold leading-tight text-foreground/80">
+        {inserted ? (
+          <motion.span
+            aria-hidden
+            className="absolute -inset-1 rounded-xl border border-amber-500/50"
+            animate={{ opacity: [0, 0.9, 0] }}
+            transition={{ repeat: Infinity, duration: 1.8 }}
+          />
+        ) : null}
+      </motion.span>
+      <span
+        className={cx(
+          "text-center text-[11px] font-semibold leading-tight",
+          inserted ? "text-amber-600 dark:text-amber-300" : "text-foreground/80"
+        )}
+      >
         {label}
       </span>
     </div>
   );
 }
 
-function Chain({ labels }: { labels: string[] }) {
+function Chain({ items }: { items: PathItem[] }) {
   return (
     <div className="flex w-full flex-wrap items-start justify-center gap-3">
-      {labels.map((label, i) => (
+      {items.map((item, i) => (
         <div key={i} className="flex items-center gap-3">
-          <PathNode label={label} />
-          {i < labels.length - 1 ? (
+          <PathNode label={item.label} inserted={item.inserted} />
+          {i < items.length - 1 ? (
             <ArrowRight className="h-4 w-4 translate-y-[-10px] text-foreground/25" />
           ) : null}
         </div>
@@ -68,7 +96,7 @@ export function AdaptiveChange({
                 Previous journey · v{change.previousVersion}
               </p>
               <div className="opacity-55 grayscale">
-                <Chain labels={change.previousPath} />
+                <Chain items={change.previousPath.map((l) => ({ label: l }))} />
               </div>
             </div>
 
@@ -77,9 +105,15 @@ export function AdaptiveChange({
                 initial={{ scale: 0.6, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ delay: 0.25, type: "spring", stiffness: 220 }}
-                className="flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-500/12 ring-1 ring-rose-500/30"
+                className="relative flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-500/12 ring-1 ring-rose-500/30"
               >
                 <FileWarning className="h-5 w-5 text-rose-500" />
+                <motion.span
+                  aria-hidden
+                  className="absolute -inset-1.5 rounded-2xl border border-rose-500/40"
+                  animate={{ opacity: [0.2, 1, 0.2] }}
+                  transition={{ repeat: Infinity, duration: 2 }}
+                />
               </motion.div>
               <div className="text-center">
                 <p className="text-[11px] font-semibold text-foreground/45">Trigger</p>
@@ -109,10 +143,15 @@ export function AdaptiveChange({
             </div>
 
             <div className="card-surface rounded-2xl p-5 ring-1 ring-indigo-500/25">
-              <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.16em] text-accent">
-                Updated journey · v{change.newVersion}
-              </p>
-              <Chain labels={change.updatedPath} />
+              <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-accent">
+                  Updated journey · v{change.newVersion}
+                </p>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-500/12 px-2 py-0.5 text-[10.5px] font-medium text-amber-600 dark:text-amber-300">
+                  <Sparkles className="h-3 w-3" /> amber = inserted
+                </span>
+              </div>
+              <Chain items={diffPath(change.previousPath, change.updatedPath)} />
             </div>
           </div>
 
@@ -174,7 +213,7 @@ export function AdaptiveChange({
                 </a>
                 <a
                   href="#decide"
-                  className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-4 py-2.5 text-[13px] font-semibold text-white shadow-sm shadow-indigo-600/25 hover:bg-indigo-500"
+                  className="inline-flex items-center gap-2 rounded-xl bg-accent px-4 py-2.5 text-[13px] font-semibold text-on-accent shadow-sm shadow-indigo-600/25 hover:bg-accent-hover"
                 >
                   <Check className="h-4 w-4" /> Accept change
                 </a>
