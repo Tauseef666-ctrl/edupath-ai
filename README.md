@@ -216,3 +216,7 @@ Production: <https://edupath-ai-alpha.vercel.app/>
 - Community-contributed resources with verification, plus per-resource progress.
 - Team/mentor sharing and collaborative roadmaps.
 - Pluggable assessment question banks per role.
+
+## Contributors
+
+- [masoodhamza07](https://github.com/masoodhamza07) — brand-identity polish, adaptive UX motion, accessibility, error boundaries, and demo documentation (merged PR #1).
